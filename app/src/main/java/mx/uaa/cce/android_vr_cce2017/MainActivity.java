@@ -7,6 +7,7 @@ import android.view.View;
 import mx.uaa.cce.android_vr_cce2017.sketch.CubeSketch;
 import mx.uaa.cce.android_vr_cce2017.sketch.GridSketch;
 import mx.uaa.cce.android_vr_cce2017.sketch.ShapeGroupsSketch;
+import mx.uaa.cce.android_vr_cce2017.sketch.SphereSketch;
 import mx.uaa.cce.android_vr_cce2017.sketch.TestVR;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -40,7 +41,7 @@ public class MainActivity extends PVR {
      */
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     void showSketch() {
-        sketch = new ShapeGroupsSketch();
+        sketch = new SphereSketch();
         setSketch(sketch);
     }
 }
