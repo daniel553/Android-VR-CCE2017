@@ -37,6 +37,7 @@ public class MainActivity extends PVR {
      */
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     void showSketch() {
-
+        sketch = new TestVR();
+        setSketch(sketch);
     }
 }
