@@ -1,9 +1,6 @@
 package mx.uaa.cce.android_vr_cce2017.sketch;
 
-import android.util.Log;
-
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 
