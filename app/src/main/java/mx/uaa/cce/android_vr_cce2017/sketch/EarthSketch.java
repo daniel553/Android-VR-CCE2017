@@ -10,8 +10,6 @@ import processing.core.PShape;
  */
 
 public class EarthSketch extends PApplet {
-
-    private PImage earth;
     private PShape earthShape;
     private int r = 0;
 
@@ -22,7 +20,6 @@ public class EarthSketch extends PApplet {
 
     @Override
     public void setup() {
-        earth = loadImage("earth.jpg");
         earthShape = loadShape("earth.obj");
         noSmooth();
     }
