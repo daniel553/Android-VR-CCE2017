@@ -1,15 +1,17 @@
 package mx.uaa.cce.android_vr_cce2017;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 
-import mx.uaa.cce.android_vr_cce2017.sketch.CubeSketch;
-import mx.uaa.cce.android_vr_cce2017.sketch.EarthSketch;
-import mx.uaa.cce.android_vr_cce2017.sketch.GridSketch;
-import mx.uaa.cce.android_vr_cce2017.sketch.ShapeGroupsSketch;
-import mx.uaa.cce.android_vr_cce2017.sketch.SphereSketch;
-import mx.uaa.cce.android_vr_cce2017.sketch.TestVR;
+import mx.uaa.cce.android_vr_cce2017.service.AudioService;
+import mx.uaa.cce.android_vr_cce2017.sketch.ShootingStarsSketch;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 import processing.core.PApplet;
@@ -33,6 +35,23 @@ public class MainActivity extends PVR {
                 showSketch();
             }
         });
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                View v = findViewById(R.id.button);
+                if (v != null)
+                    v.performClick();
+            }
+        };
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    public void onStop() {
+        if (mService != null)
+            mService.stop();
+        super.onStop();
     }
 
     /**
@@ -42,7 +61,31 @@ public class MainActivity extends PVR {
      */
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     void showSketch() {
-        sketch = new EarthSketch();
+        sketch = new ShootingStarsSketch();
         setSketch(sketch);
+        startAudioService();
     }
+
+    /**
+     * Starts audio service to play shooting stars
+     */
+    private void startAudioService() {
+        Intent intent = new Intent(this, AudioService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private AudioService mService;
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AudioService.ServiceBinder binder = (AudioService.ServiceBinder) service;
+            mService = binder.getAudioService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+        }
+    };
+
 }
