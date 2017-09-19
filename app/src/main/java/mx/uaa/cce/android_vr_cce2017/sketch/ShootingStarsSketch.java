@@ -68,15 +68,14 @@ public class ShootingStarsSketch extends PApplet {
     /**
      * Generate a crazy background colors Careful with epilepsy
      */
-    int gradientIterator = 0;
+    int gradientIterator = 1000;
 
     private void crazyBackgrounds() {
         colorMode(HSB);
-        gradientIterator = gradientIterator + 5;
+        gradientIterator = gradientIterator - 5;
+        background(gradientIterator);
         if (gradientIterator <= color(0, 0, 0) || gradientIterator == 0)
             gradientIterator = color(random(255), random(255), random(255));
-
-        background(gradientIterator);
     }
 
     @Override
