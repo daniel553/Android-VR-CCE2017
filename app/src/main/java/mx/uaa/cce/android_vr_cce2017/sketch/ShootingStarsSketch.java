@@ -17,7 +17,7 @@ public class ShootingStarsSketch extends PApplet {
     private AccelerometerManager accelerometerManager;
     float ax, ay, az;
     private StarField starField;
-    private int r;
+    private int ry;
 
     @Override
     public void settings() {
@@ -34,19 +34,23 @@ public class ShootingStarsSketch extends PApplet {
     public void draw() {
 
         //crazy background colors
-        crazyBackgrounds();
+        if (isCrazy())
+            crazyBackgrounds();
+        else
+            background(0);
         lights();
 
 
         beginCamera();
         camera();
         if (ay > 1)
-            r++;
+            ry++;
         else if (ay < -1)
-            r--;
-        if (r < 0 || r > 360)
-            r = 0;
-        rotateY(radians(r));
+            ry--;
+        if (ry < 0 || ry > 360)
+            ry = 0;
+        rotateY(radians(ry));
+
         endCamera();
         translate(width / 2, height / 2, -200);
         fill(250);
@@ -55,6 +59,10 @@ public class ShootingStarsSketch extends PApplet {
         translate(width / 2, height / 2);
         starField.update();
         starField.show();
+    }
+
+    private boolean isCrazy() {
+        return frameCount > 780;
     }
 
     /**
@@ -126,6 +134,7 @@ public class ShootingStarsSketch extends PApplet {
             for (final Star s : stars) {
                 //initial point
                 pushMatrix();
+                eye();
                 translate(0, 0, 0);
                 smooth();
                 //Go to specific start position
