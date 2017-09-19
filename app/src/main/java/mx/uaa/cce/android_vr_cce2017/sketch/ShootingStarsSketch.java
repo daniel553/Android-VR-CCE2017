@@ -48,8 +48,6 @@ public class ShootingStarsSketch extends PApplet {
             ry++;
         else if (ay < -1)
             ry--;
-        if (ry < 0 || ry > 360)
-            ry = 0;
         rotateY(radians(ry));
         endCamera();
 
