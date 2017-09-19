@@ -41,6 +41,7 @@ public class ShootingStarsSketch extends PApplet {
         lights();
 
 
+        //Change camera rotation
         beginCamera();
         camera();
         if (ay > 1)
@@ -50,17 +51,23 @@ public class ShootingStarsSketch extends PApplet {
         if (ry < 0 || ry > 360)
             ry = 0;
         rotateY(radians(ry));
-
         endCamera();
+
+        //Reference point
         translate(width / 2, height / 2, -200);
         fill(250);
         box(45);
 
-        translate(width / 2, height / 2);
+        //Show star field
         starField.update();
         starField.show();
     }
 
+    /**
+     * Just to know if song is on crazy mode
+     *
+     * @return
+     */
     private boolean isCrazy() {
         return frameCount > 780;
     }
@@ -92,6 +99,13 @@ public class ShootingStarsSketch extends PApplet {
         super.onPause();
     }
 
+    /**
+     * To check acceleration event
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
     public void accelerationEvent(float x, float y, float z) {
         //Log.d(TAG, x + "," + y + "," + z);
         ax = x;
@@ -104,6 +118,9 @@ public class ShootingStarsSketch extends PApplet {
     //-----------------------------
     // Objects
 
+    /**
+     * Star field with some moving stars
+     */
     class StarField {
 
         int maxStars = 30;
@@ -113,6 +130,9 @@ public class ShootingStarsSketch extends PApplet {
             init();
         }
 
+        /**
+         * Randomize stars
+         */
         public void init() {
             for (int i = 0; i < maxStars; i++) {
                 Star star = new Star();
@@ -121,6 +141,9 @@ public class ShootingStarsSketch extends PApplet {
             }
         }
 
+        /**
+         * Updates (moves)
+         */
         public void update() {
             for (Star s : stars) {
                 if (s.isOut())
@@ -129,6 +152,9 @@ public class ShootingStarsSketch extends PApplet {
             }
         }
 
+        /**
+         * Shows the star field
+         */
         public void show() {
             for (final Star s : stars) {
                 //initial point
@@ -147,6 +173,9 @@ public class ShootingStarsSketch extends PApplet {
         }
     }
 
+    /**
+     * A star with X, Y, Z coordinates and a speed (vel)
+     */
     class Star {
         int x;
         int y;
@@ -161,12 +190,20 @@ public class ShootingStarsSketch extends PApplet {
         public Star() {
         }
 
+        /**
+         * Randomize a new star
+         *
+         * @return
+         */
         public Star getRandomStar() {
             Star star = new Star();
             star.randomizeStar();
             return star;
         }
 
+        /**
+         * Randomize this star
+         */
         public void randomizeStar() {
             this.x = (int) random(100, width - 100); //X
             this.y = (int) random(100, height - 100); //Y
@@ -185,10 +222,16 @@ public class ShootingStarsSketch extends PApplet {
             this.size = (int) random(20, 50);
         }
 
+        /**
+         * Acelerates (z index)
+         */
         public void acelerate() {
-            this.z = this.z + this.vel;
+            this.z = this.z + this.vel + 1;
         }
 
+        /**
+         * Move and acelerate
+         */
         public void move() {
             this.x = this.x + xOff;
             this.y = this.y + yOff;
